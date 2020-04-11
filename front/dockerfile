@@ -1,0 +1,2 @@
+FROM nehaad/bcs-repo:nginxv1
+
