@@ -1,29 +1,42 @@
 version: '3'
 services:
 
-  front:
+  portainer_app:
+    image: portainer/portainer
+    volumes:
+      - /home/docker_files/portainer:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 9000:9000
+      - 8000:8000
+
+  wp_mysql_server:
+    image: mysql:8
+    volumes:
+      - /home/docker_files/wordpress/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: Jdfj@dki4456f
+
+  wp_php:
+    build: ./php-fpm
+    volumes:
+      - /home/docker_files/wordpress/source_code:/var/www/html
+      - /home/docker_sources/wordpress/php-fpm/php-fpm.d:/usr/local/etc/php-fpm.d
+      - /home/docker_sources/wordpress/php-fpm/php.d:/usr/local/etc/php
+    depends_on:
+      - wp_mysql_server
+    environment:
+      - MYSQL_HOST=wp_mysql_server
+      - MYSQL_DB=wp_db
+      - MYSQL_USER=wp_user
+      - MYSQL_PASSWD=fkgj@44gb5
+
+  wp_front:
     image: nginx:1.17
     volumes:
       - /home/docker_sources/wordpress/nginx/cond.d:/etc/nginx/conf.d
       - /home/docker_files/wordpress/source_code:/var/www/html
     ports: 
       - 80:80
-
-  php:
-    build: ./php-fpm
-    volumes:
-      - /home/docker_files/wordpress/source_code:/var/www/html
-      - /home/docker_sources/wordpress/php-fpm/php-fpm.d:/usr/local/etc/php-fpm.d
-      - /home/docker_sources/wordpress/php-fpm/php.d:/usr/local/etc/php
-    environment:
-      - MYSQL_HOST=mysql_server
-      - MYSQL_DB=wp_db
-      - MYSQL_USER=wp_user
-      - MYSQL_PASSWD=fkgj@44gb5
-
-  mysql_server:
-    image: mysql:8
-    volumes:
-      - /home/docker_files/wordpress/mysql:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: Jdfj@dki4456f
+    depends_on:
+      - wp_php
