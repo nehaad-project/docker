@@ -4,7 +4,7 @@ services:
   portainer_app:
     image: portainer/portainer
     volumes:
-      - /home/docker_files/portainer:/data
+      - ../../docker_files/portainer:/data
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - 9000:9000
@@ -13,7 +13,7 @@ services:
   wp_mysql_server:
     image: mysql:8
     volumes:
-      - /home/docker_files/wordpress/mysql:/var/lib/mysql
+      - ../../docker_files/wordpress/mysql:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: Jdfj@dki4456f
     deploy:
@@ -21,14 +21,14 @@ services:
       replicas: 1
       labels: [MYSQL=wp]
       placement:
-        constraints: [node.role == worker]
+        constraints: [node.role == manager]
 
   wp_php:
-    build: ./php-fpm
+    image: nehaad/php-fpm:v1
     volumes:
-      - /home/docker_files/wordpress/source_code:/var/www/html
-      - /home/docker_sources/wordpress/php-fpm/php-fpm.d:/usr/local/etc/php-fpm.d
-      - /home/docker_sources/wordpress/php-fpm/php.d:/usr/local/etc/php
+      - ../../docker_files/wordpress/source_code:/var/www/html
+      - ../../docker_sources/wordpress/php-fpm/php-fpm.d:/usr/local/etc/php-fpm.d
+      - ../../docker_sources/wordpress/php-fpm/php.d:/usr/local/etc/php
     depends_on:
       - wp_mysql_server
     environment:
@@ -46,8 +46,8 @@ services:
   wp_front:
     image: nginx:1.17
     volumes:
-      - /home/docker_sources/wordpress/nginx/cond.d:/etc/nginx/conf.d
-      - /home/docker_files/wordpress/source_code:/var/www/html
+      - ../../docker_sources/wordpress/nginx/cond.d:/etc/nginx/conf.d
+      - ../../docker_files/wordpress/source_code:/var/www/html
     ports: 
       - 80:80
     depends_on:
