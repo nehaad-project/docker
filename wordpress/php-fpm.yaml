@@ -1,0 +1,13 @@
+version: '3'
+services:
+  wp_php:
+    build: ./php-fpm
+    volumes:
+      - /home/docker_files/wordpress/source_code:/var/www/html
+      - /home/docker_sources/wordpress/php-fpm/php-fpm.d:/usr/local/etc/php-fpm.d
+      - /home/docker_sources/wordpress/php-fpm/php.d:/usr/local/etc/php
+    environment:
+      - MYSQL_HOST=wp_mysql_server
+      - MYSQL_DB=wp_db
+      - MYSQL_USER=wp_user
+      - MYSQL_PASSWD=fkgj@44gb5

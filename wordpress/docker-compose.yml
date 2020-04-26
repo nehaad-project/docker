@@ -16,6 +16,12 @@ services:
       - /home/docker_files/wordpress/mysql:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: Jdfj@dki4456f
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels: [MYSQL=wp]
+      placement:
+        constraints: [node.role == worker]
 
   wp_php:
     build: ./php-fpm
@@ -30,6 +36,12 @@ services:
       - MYSQL_DB=wp_db
       - MYSQL_USER=wp_user
       - MYSQL_PASSWD=fkgj@44gb5
+    deploy:
+      mode: replicated
+      replicas: 3
+      labels: [PHP-FPM=wp]
+      placement:
+        constraints: [node.role == worker]
 
   wp_front:
     image: nginx:1.17
@@ -40,3 +52,7 @@ services:
       - 80:80
     depends_on:
       - wp_php
+    deploy:
+      mode: replicated
+      replicas: 4
+      labels: [NGINX=wp]
