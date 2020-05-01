@@ -21,7 +21,7 @@ services:
       replicas: 1
       labels: [MYSQL=wp]
       placement:
-        constraints: [node.role == manager]
+        constraints: [node.role == worker]
 
   wp_php:
     image: nehaad/php-fpm:v1
@@ -54,5 +54,5 @@ services:
       - wp_php
     deploy:
       mode: replicated
-      replicas: 4
+      replicas: 2
       labels: [NGINX=wp]
