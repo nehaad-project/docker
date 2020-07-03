@@ -1,10 +1,10 @@
-# docker
+# DOCKER
 
 Wordpress --> OK
 
 Task manager config -- > OK
 
-SWARM:
+# SWARM:
 
 Manager:
 docker swarm init --advertise-addr 10.10.10.2

@@ -1,14 +1,14 @@
 version: '3'
 services:
 
-  portainer_app:
-    image: portainer/portainer
-    volumes:
-      - ../../docker_files/portainer:/data
-      - /var/run/docker.sock:/var/run/docker.sock
-    ports:
-      - 9000:9000
-      - 8000:8000
+#  portainer_app:
+#    image: portainer/portainer
+#    volumes:
+#      - ../../docker_files/portainer:/data
+#      - /var/run/docker.sock:/var/run/docker.sock
+#    ports:
+#      - 9000:9000
+#      - 8000:8000
 
   wp_mysql_server:
     image: mysql:8
@@ -22,6 +22,8 @@ services:
       labels: [MYSQL=wp]
       placement:
         constraints: [node.role == worker]
+      restart_policy:
+        condition: any
 
   wp_php:
     image: nehaad/php-fpm:v1
@@ -42,6 +44,9 @@ services:
       labels: [PHP-FPM=wp]
       placement:
         constraints: [node.role == worker]
+      restart_policy:
+        condition: any
+        delay: 5s
 
   wp_front:
     image: nginx:1.17
@@ -56,3 +61,6 @@ services:
       mode: replicated
       replicas: 2
       labels: [NGINX=wp]
+      restart_policy:
+        condition: any
+        delay: 10s
