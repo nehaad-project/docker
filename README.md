@@ -24,6 +24,9 @@ docker deploy --> only on experimental features
  - chown 33:101 for wordpress source files (33 - www-data user , 101 - nginx user)
  - chown 999:999 for mysql files (999 - mysql user)
 
+## Destroy Swarm
+ - docker swarm leave
+ - docker node rm <nodename>
 
 
 
