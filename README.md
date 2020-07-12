@@ -29,4 +29,4 @@ docker deploy --> only on experimental features
  - docker node rm <nodename>
 
 
-
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.34.0/deploy/static/provider/baremetal/deploy.yaml
