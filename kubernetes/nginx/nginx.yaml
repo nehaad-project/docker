@@ -18,9 +18,15 @@ spec:
         image: nginx:1.14.2
         ports:
         - containerPort: 80
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 2
-          periodSeconds: 10
+        volumeMounts:
+        - name: nginx-nehaad
+          mountPath: /etc/nginx/conf.d/
+        - name: nfs-wp
+          mountPath: /usr/share/nginx/html/
+      volumes:
+      - name: nginx-nehaad
+        configMap:
+          name: nginx-config
+      - name: nfs-wp
+        persistentVolumeClaim:
+          claimName: nfs-pvc
