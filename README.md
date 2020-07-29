@@ -1,5 +1,5 @@
 # DOCKER
-
+df
 Wordpress --> OK
 
 Task manager config -- > OK
