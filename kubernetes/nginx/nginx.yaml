@@ -22,5 +22,8 @@ spec:
           httpGet:
             path: /
             port: 80
+            httpHeaders:
+            - name: Host
+              value: "nehaad.nginx.com"
           initialDelaySeconds: 2
           periodSeconds: 10
